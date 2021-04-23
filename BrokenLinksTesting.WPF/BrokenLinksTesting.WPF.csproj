@@ -6,4 +6,9 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FiddlerCore" Version="4.6.2" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.33" />
+  </ItemGroup>
+
 </Project>
