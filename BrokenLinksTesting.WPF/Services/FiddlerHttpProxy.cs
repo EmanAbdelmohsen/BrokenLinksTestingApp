@@ -40,7 +40,7 @@ namespace BrokenLinksTesting.WPF
             if (s.RequestMethod == "CONNECT")
                 return;
 
-            // Capture url and request body. This url is not root url
+            // Capture url and request info
             HttpLinks.Add(new Link
             {
                 Id = RandomNumberGenerator.GenerateRandomNumber(),

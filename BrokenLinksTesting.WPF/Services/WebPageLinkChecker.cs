@@ -35,9 +35,11 @@ namespace BrokenLinksTesting.WPF
 
                 links.Add(new Link
                 {
+                    Id = RandomNumberGenerator.GenerateRandomNumber(),
                     RequestMethod = "GET",
                     ResponseCode = status.ToString(),
-                    URL = link
+                    URL = link,
+                    RequestDate = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString(),
                 });
             }
 

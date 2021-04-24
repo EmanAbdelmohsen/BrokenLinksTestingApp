@@ -5,8 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BrokenLinksTesting.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="800" Width="860">
+    <Grid Margin="0,0,-86,-146">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="532*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="13*"/>
+            <ColumnDefinition Width="56*"/>
+            <ColumnDefinition Width="764*"/>
+            <ColumnDefinition Width="113*"/>
+        </Grid.ColumnDefinitions>
+        <WebBrowser x:Name="browser" Margin="14,15,36,318" Grid.Row="1" Grid.Column="2"/>
+        <ListBox x:Name="listBox1" Margin="10,431,14,149" SelectionChanged=" listBox1_SelectionChanged " Grid.Row="1" Grid.Column="2"/>
 
     </Grid>
 </Window>
