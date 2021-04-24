@@ -29,18 +29,20 @@ namespace BrokenLinksTesting.WPF
             var urls = ExtractLinksFromHtmlDoc(doc);
 
             //3- iterate on links to get the status
-            foreach (string link in urls)
+            foreach (string u in urls)
             {
-                int status = GetStatusCodeFromHttpResponse(link);
+                int status = GetStatusCodeFromHttpResponse(u);
 
-                links.Add(new Link
+                var link = new Link
                 {
                     Id = RandomNumberGenerator.GenerateRandomNumber(),
                     RequestMethod = "GET",
                     ResponseCode = status.ToString(),
-                    URL = link,
+                    URL = u,
                     RequestDate = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString(),
-                });
+                };
+
+                links.Add(link);
             }
 
             return links;

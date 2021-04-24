@@ -19,6 +19,36 @@ namespace BrokenLinksTesting.WPF
             InitializeComponent();
         }
 
+
+        void btn_browse_click(object sender, RoutedEventArgs e)
+        {
+            url = txtbx1.Text;
+
+            if (string.IsNullOrEmpty(url))
+                return;
+
+            //clear all previous links to prepare for the new list related to the current URL
+            UiUtility.Links.Clear();
+
+            //navigate url
+            browser.Navigate(new Uri(url));
+
+            browser.Navigated += new NavigatedEventHandler(webBrowser1_DocumentNavigated);
+        }
+
+        void listBox1_SelectionChanged(object sender, SelectionChangedEventArgs args)
+        {
+            ListBoxItem lbi = (ListBoxItem)(sender as ListBox).SelectedItem;
+
+            var bug = UiUtility.Links.Where(l => l.Id == lbi.TabIndex).FirstOrDefault();
+
+            BugReportPage bugReport = new BugReportPage(bug.RequestDate, bug.URL, bug.ResponseCode, bug.ResponseDetails);
+
+            //redirect to bug report page
+            frame1.Navigate(bugReport);
+            frame1.Visibility = Visibility.Visible;
+        }
+
         void webBrowser1_DocumentNavigated(object sender, NavigationEventArgs e)
         {
             //detect all links found in the navigated page html content
@@ -26,49 +56,12 @@ namespace BrokenLinksTesting.WPF
 
             foreach (var link in links)
             {
-                //update list box
-                InsertLinkToListBox1(link);
+                //insert link to the global links list
+                UiUtility.Links.Add(link);
+
+                //update UI with the detected link
+                UiUtility.InsertLinkToMainWindowListBox1(link);
             }
-        }
-
-        void listBox1_SelectionChanged(object sender, SelectionChangedEventArgs args)
-        {
-            ListBoxItem lbi = (ListBoxItem)(sender as ListBox).SelectedItem;
-
-            var bug = Links.Where(l => l.Id == lbi.TabIndex).FirstOrDefault();
-
-            BugReportPage bugReport = new BugReportPage(bug.RequestDate, bug.URL, bug.ResponseCode, bug.ResponseDetails);
-
-            bugReport.Show();
-            Close();
-        }
-
-        /// <summary>
-        /// Browser navigation method
-        /// </summary>
-        /// <param name="pageUrl"> url to be browsed through the WebBrowser</param>
-        void Browse(string pageUrl)
-        {
-            url = pageUrl;
-
-            browser.Navigate(new Uri(pageUrl));
-
-            browser.Navigated += new NavigatedEventHandler(webBrowser1_DocumentNavigated);
-        }
-
-        void InsertLinkToListBox1(Link link)
-        {
-            // Capture url and request body. This url is not root url
-            Dispatcher.Invoke(() =>
-            {
-                var newItem = new ListBoxItem
-                {
-                    TabIndex = link.Id,
-                    Content = $"{DateTime.Now.ToShortTimeString()}   {link.RequestMethod}   {link.ResponseCode}   {link.URL}   {LinkTypeEnum.Web_URL}"
-                };
-
-                listBox1.Items.Add(newItem);
-            });
         }
     }
 }

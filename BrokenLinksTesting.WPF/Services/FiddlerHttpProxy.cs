@@ -1,6 +1,5 @@
 ﻿using BrokenLinksTesting.WPF.Common;
 using Fiddler;
-using System.Collections.Generic;
 
 namespace BrokenLinksTesting.WPF
 {
@@ -9,8 +8,6 @@ namespace BrokenLinksTesting.WPF
     /// </summary>
     public static class FiddlerHttpProxy
     {
-        public static List<Link> HttpLinks = new List<Link>();
-
         /// <summary>
         /// Initializes FiddlerApplication
         /// </summary>
@@ -41,14 +38,20 @@ namespace BrokenLinksTesting.WPF
                 return;
 
             // Capture url and request info
-            HttpLinks.Add(new Link
+            var link = new Link
             {
                 Id = RandomNumberGenerator.GenerateRandomNumber(),
                 URL = s.fullUrl,
                 RequestDate = s.Timers.ClientBeginRequest.ToShortDateString() + " " + s.Timers.ClientBeginRequest.ToShortTimeString(),
                 RequestMethod = s.RequestMethod,
                 ResponseCode = s.responseCode.ToString(),
-            });
+            };
+
+            //insert link to the global links list
+            UiUtility.Links.Add(link);
+
+            //update UI with the detected link
+            UiUtility.InsertLinkToMainWindowListBox1(link);
         }
     }
 }
