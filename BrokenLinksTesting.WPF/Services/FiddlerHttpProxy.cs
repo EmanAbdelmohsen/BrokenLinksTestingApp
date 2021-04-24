@@ -14,7 +14,7 @@ namespace BrokenLinksTesting.WPF
         /// <summary>
         /// Initializes FiddlerApplication
         /// </summary>
-        public static void RunFiddler()
+        public static void Run()
         {
             System.Diagnostics.Debug.WriteLine("Starting FiddlerCore...");
             CONFIG.IgnoreServerCertErrors = false;
@@ -29,7 +29,8 @@ namespace BrokenLinksTesting.WPF
             }
             catch { }
 
-
+            //assign AfterSessionComplete event handler to capture requests
+            //AfterSessionComplete event is chosen to get all necessary data from both the request and its response
             FiddlerApplication.AfterSessionComplete += FiddlerAfterSessionCompleteEventHandler;
         }
 
